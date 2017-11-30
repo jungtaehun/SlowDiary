@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.List;
 
 public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.MyViewHolder> {
@@ -33,6 +35,10 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
+            case 2:
+            case 3:
+            case 5:
+            case 7:
                 return TYPE_HEADER;
             default:
                 return TYPE_CELL;
@@ -68,7 +74,6 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         DiaryItem diary = contents.get(position);
-
 
         switch (getItemViewType(position)) {
             case TYPE_HEADER:
