@@ -1,6 +1,8 @@
 package com.koreatech.bcsdlab.slowdiary;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,11 +13,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Date;
+
+
+import static java.security.AccessController.getContext;
+
 public class AddDiaryActivity extends AppCompatActivity {
     private EditText mTitle;
     private EditText mContent;
     private EditText mOpenDate;
     private Button mSave;
+    SQLiteDatabase db;
+    DatabaseOpenHelper helper;
+    public static final String TITLE = "Title";
+    public static final String CONTENT = "Content";
+    public static final String WDATE = "WriteDate";
+    public static final String ODATE = "OpenDate";
+    private static final String TABLE_NAME = "TEST_TABLE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +46,7 @@ public class AddDiaryActivity extends AppCompatActivity {
         mSave.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                insert(mTitle.getText().toString(), mContent.getText().toString());
                 Intent intent = new Intent();
                 intent.putExtra("Title", mTitle.getText().toString());
                 intent.putExtra("Content", mContent.getText().toString());
@@ -45,6 +60,17 @@ public class AddDiaryActivity extends AppCompatActivity {
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    public void insert(String t, String c) {
+        helper = new DatabaseOpenHelper(getApplicationContext());
+        db = helper.getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(TITLE, t);
+        initialValues.put(CONTENT, c);
+        initialValues.put(WDATE, String.valueOf(new Date()));
+        initialValues.put(ODATE, String.valueOf(new Date(2017,12,10)));
+        db.insert(TABLE_NAME, null, initialValues);
     }
 
 }

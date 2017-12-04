@@ -133,12 +133,16 @@ public class MainActivity extends DrawerActivity {
                 String title = data.getStringExtra("Title");
                 String content = data.getStringExtra("Content");
                 Snackbar.make(vw , "제목 : " + title + ", 내용 : " + content, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                RecyclerViewFragment.newInstance();
+
                 break;
             default:
                 Snackbar.make(vw , "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
         }
     }
+
+
 
 
 

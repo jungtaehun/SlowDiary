@@ -67,7 +67,7 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         new LoadTestDbTask().execute();
     }
-    private class LoadTestDbTask extends AsyncTask<Void, Void, Cursor> {
+    public class LoadTestDbTask extends AsyncTask<Void, Void, Cursor> {
 
         /**
          * Override this method to perform a computation on a background thread. The
