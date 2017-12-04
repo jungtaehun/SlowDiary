@@ -1,4 +1,4 @@
-package com.koreatech.bcsdlab.slowdiary;
+package com.koreatech.bcsdlab.slowdiary.temp;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.time.Period;
+import com.koreatech.bcsdlab.slowdiary.R;
+
 import java.util.List;
 
 public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.MyViewHolder> {

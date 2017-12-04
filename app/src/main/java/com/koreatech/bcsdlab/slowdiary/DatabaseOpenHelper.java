@@ -23,14 +23,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WDATE + "," + ODATE + "," + TITLE + "," + CONTENT + ")";
 
-    // query projection
-    public static final String[] PROJECTION = {
-            ID,
-            WDATE,
-            ODATE,
-            TITLE,
-            CONTENT
-    };
     private final Context mHelperContext;
 
     DatabaseOpenHelper(Context context) {
@@ -77,21 +69,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-/*
-    public void insertDb(String t, String c) {
-        final Resources resources = mHelperContext.getResources();
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(TITLE, t);
-        initialValues.put(CONTENT, c);
-        initialValues.put(WDATE, String.valueOf(new Date()));
-        initialValues.put(ODATE, String.valueOf(new Date(2017,12,10)));
-        long id = db.insert(TABLE_NAME, null, initialValues);
-    }
-*/
+
     private void loadTestDb(SQLiteDatabase db) {
         final Resources resources = mHelperContext.getResources();
-        //InputStream inputStream = resources.openRawResource(R.raw.test_db);
-
         for(int i = 0; i < 10; i++) {
             ContentValues initialValues = new ContentValues();
             initialValues.put(TITLE, "Test Title");
@@ -100,30 +80,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             initialValues.put(ODATE, String.valueOf(new Date(2017,12,10)));
             long id = db.insert(TABLE_NAME, null, initialValues);
         }
-            /*
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            try {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    ContentValues initialValues = new ContentValues();
-                    initialValues.put(TITLE, line);
-
-                    long id = db.insert(TABLE_NAME, null, initialValues);
-                    if (id < 0) {
-                        Log.e(getClass().getName(), "unable to add test db: " + line.trim());
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            */
 
     }
 }

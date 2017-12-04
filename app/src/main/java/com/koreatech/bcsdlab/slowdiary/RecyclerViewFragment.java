@@ -44,15 +44,6 @@ public class RecyclerViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-/*
-        final List<DiaryItem> items = new ArrayList<>();
-
-        for (int i = 0; i < ITEM_COUNT; ++i) {
-            items.add(new DiaryItem("Test", "Test Content"));
-        }
-*/
-
-        //setup materialviewpager
 
         if (GRID_LAYOUT) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));

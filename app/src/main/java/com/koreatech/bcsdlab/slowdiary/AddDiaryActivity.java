@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +14,6 @@ import android.widget.EditText;
 
 import java.util.Date;
 
-
-import static java.security.AccessController.getContext;
 
 public class AddDiaryActivity extends AppCompatActivity {
     private EditText mTitle;
