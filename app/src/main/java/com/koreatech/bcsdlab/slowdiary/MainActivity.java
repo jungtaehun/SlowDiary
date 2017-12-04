@@ -1,6 +1,8 @@
 package com.koreatech.bcsdlab.slowdiary;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,6 +28,7 @@ public class MainActivity extends DrawerActivity {
     MaterialViewPager mViewPager;
     View vw;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class MainActivity extends DrawerActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-vw = findViewById(R.id.drawer_layout);
+        vw = findViewById(R.id.drawer_layout);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -136,5 +139,7 @@ vw = findViewById(R.id.drawer_layout);
                 break;
         }
     }
+
+
 
 }
