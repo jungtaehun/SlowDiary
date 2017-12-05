@@ -34,6 +34,9 @@ public class AddDiaryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
+        /* Todo
+        *  AddDiaryActivity의 레이아웃과 색을 변경해야할 것 같습니다.
+        * */
 
         mTitle = (EditText)findViewById(R.id.add_title);
         mContent = (EditText)findViewById(R.id.add_content);

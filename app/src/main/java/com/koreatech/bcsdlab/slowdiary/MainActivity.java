@@ -40,10 +40,11 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             public Fragment getItem(int position) {
-                switch (position % 3) {
+                switch (position % 2) {
                     /* TODO
                     *  현재 세 개의 Fragment에서 똑같은 Adapter를 받기에 모든 Fragment에 똑같은 내용이 출력된다.
                     *  하지만 이제는 position이 0일 경우 즐겨찾기한 Diary를, 1일때는 열린 Diary를, 2일때는 열리지 않은 Diary를 보여줘야한다.
+                    *  (현재 시간상으로 Fragment를 축소하여 0일 때는 열린 Diary를, 2일때는 열리지 않은 Diary를 보여주게 한다.)
                     *  또한 열린 Diary의 경우는 큰 CardView(TYPE_HEADER)로, 열리지 않은 Diary는 작은 CardView(TYPE_CELL)을 사용한다.
                     *  (현재 이 부분은 RecyclerViewFragment, SimpleCursorRecyclerAdapter가 담당하고 있음.)
                     *  (또한 이 부분을 구현하기 위해 DB 테이블의 수정이 필요할 수도 있으며, 추가적인 Fragment가 필요할수도 있음.)
@@ -61,17 +62,15 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             public int getCount() {
-                return 3;
+                return 2;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
-                switch (position % 3) {
+                switch (position % 2) {
                     case 0:
-                        return "찜한 일기";
-                    case 1:
                         return "오픈된 일기";
-                    case 2:
+                    case 1:
                         return "보관중인 일기";
                 }
                 return "";
@@ -93,10 +92,6 @@ public class MainActivity extends DrawerActivity {
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.blue,
-                                getResources().getDrawable(R.drawable.choco));
-                    case 2:
-                        return HeaderDesign.fromColorResAndDrawable(
-                                R.color.cyan,
                                 getResources().getDrawable(R.drawable.choco));
                 }
 
