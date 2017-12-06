@@ -2,14 +2,19 @@ package com.koreatech.bcsdlab.slowdiary;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecyclerViewFragment extends Fragment {
-
+    View vw;
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 10;
 
@@ -43,6 +48,7 @@ public class RecyclerViewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        vw = view.findViewById(R.id.drawer_layout);
         ButterKnife.bind(this, view);
 
         if (GRID_LAYOUT) {
@@ -56,8 +62,12 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mAdapter = new SimpleCursorRecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
         new LoadTestDbTask().execute();
     }
+
+    /* Todo : Database가 변경되는 것을 감지하면 ListView를 새로고침 */
+
     public class LoadTestDbTask extends AsyncTask<Void, Void, Cursor> {
 
         /**

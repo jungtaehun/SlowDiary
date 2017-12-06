@@ -124,6 +124,7 @@ public class MainActivity extends DrawerActivity {
         }
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
@@ -131,12 +132,6 @@ public class MainActivity extends DrawerActivity {
                 String title = data.getStringExtra("Title");
                 String content = data.getStringExtra("Content");
                 Snackbar.make(vw , "제목 : " + title + ", 내용 : " + content, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                /* TODO
-                *   AddDiaryActivity에서 완료 result를 받을 때, 새로고침해주기.
-                *   (현재 새로고침 부분은 RecyclerViewFragment의 LoadTestDbTask 클래스가 담당하고 있음.)
-                * */
-
                 break;
             default:
                 Snackbar.make(vw , "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
