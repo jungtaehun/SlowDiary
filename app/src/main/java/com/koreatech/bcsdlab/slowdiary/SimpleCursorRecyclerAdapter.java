@@ -19,6 +19,8 @@ public class SimpleCursorRecyclerAdapter extends RecyclerView.Adapter<SimpleView
 * */
     @Override
     public int getItemViewType(int position) {
+        mCursor.moveToPosition(position);
+        mCursor.getColumnIndex(TestDb.ODATE);
         switch (position) {
             case 0:
             case 2:
@@ -64,7 +66,7 @@ public class SimpleCursorRecyclerAdapter extends RecyclerView.Adapter<SimpleView
                 viewHolder.content.setText(mCursor.getString(mCursor.getColumnIndex(TestDb.CONTENT)));
                 break;
             case TYPE_CELL:
-                viewHolder.title.setText(mCursor.getString(mCursor.getColumnIndex(TestDb.TITLE)));
+                viewHolder.title.setText(mCursor.getString(mCursor.getColumnIndex(TestDb.ODATE)));
                 break;
         }
     }

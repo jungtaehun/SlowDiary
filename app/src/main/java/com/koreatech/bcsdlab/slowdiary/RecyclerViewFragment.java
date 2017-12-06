@@ -64,6 +64,7 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         new LoadTestDbTask().execute();
+        mAdapter.notifyDataSetChanged();
     }
 
     /* Todo : Database가 변경되는 것을 감지하면 ListView를 새로고침 */
