@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
@@ -72,12 +74,24 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     private void loadTestDb(SQLiteDatabase db) {
         final Resources resources = mHelperContext.getResources();
-        for(int i = 0; i < 10; i++) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String open_date = null;
+        for(int i = 0; i < 5; i++) {
             ContentValues initialValues = new ContentValues();
             initialValues.put(TITLE, "Test Title");
             initialValues.put(CONTENT, "Test Content");
-            initialValues.put(WDATE, String.valueOf(new Date()));
-            initialValues.put(ODATE, String.valueOf(new Date(2017,12,10)));
+            initialValues.put(WDATE, df.format(new Date()));
+            open_date = "2018-12-10 00:00:00";
+            initialValues.put(ODATE, open_date);
+            long id = db.insert(TABLE_NAME, null, initialValues);
+        }
+        for(int i = 0; i < 5; i++) {
+            ContentValues initialValues = new ContentValues();
+            initialValues.put(TITLE, "Test Title");
+            initialValues.put(CONTENT, "Test Content");
+            initialValues.put(WDATE, df.format(new Date()));
+            open_date = "2017-01-06 00:00:00";
+            initialValues.put(ODATE, open_date);
             long id = db.insert(TABLE_NAME, null, initialValues);
         }
 

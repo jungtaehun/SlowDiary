@@ -17,29 +17,27 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class SimpleCursorRecyclerAdapter extends RecyclerView.Adapter<SimpleCursorRecyclerAdapter.SimpleViewHolder> {
+public class PreviousRecyclerAdapter extends RecyclerView.Adapter<PreviousRecyclerAdapter.SimpleViewHolder> {
 
     private Cursor mCursor;
     CustomCursorAdapter mCursorAdapter;
     Context mContext;
-    static final int TYPE_HEADER = 0;
-    static final int TYPE_CELL = 1;
+    static final int TYPE_CELL = 0;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public SimpleCursorRecyclerAdapter(Context context, Cursor c) {
+    public PreviousRecyclerAdapter(Context context, Cursor c) {
         mContext = context;
         mCursorAdapter = new CustomCursorAdapter(mContext, c, 0);
     }
 
     class SimpleViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView title, content;
+        public TextView title;
 
         public SimpleViewHolder (View itemView)
         {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.ltitle);
-            content = (TextView) itemView.findViewById(R.id.lcontent);
         }
     }
 
@@ -47,95 +45,67 @@ public class SimpleCursorRecyclerAdapter extends RecyclerView.Adapter<SimpleCurs
 * 현재 큰 CardView와 작은 CardView 선택 기준은 getItemViewType에서 임의로 설정한 position에 의해 결정된다.
 * 하지만 이제는 OpenDate와 비교해 오픈되었는지의 여부로 결정해주어야 한다.
 * */
-private class CustomCursorAdapter extends CursorAdapter {
-    public CustomCursorAdapter(Context context, Cursor c, int flags) {
-        super(context, c, flags);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        Cursor cursor = (Cursor) mCursorAdapter.getItem(position);
-        cursor.moveToPosition(position);
-        Date date = new Date();
-        String open_date = cursor.getString(cursor.getColumnIndex(TestDb.ODATE));
-
-        try {
-            date = df.parse(open_date);
-        } catch (ParseException e) {
-            Log.e(TAG, "Parsing ISO8601 datetime failed", e);
+    private class CustomCursorAdapter extends CursorAdapter {
+        public CustomCursorAdapter(Context context, Cursor c, int flags) {
+            super(context, c, flags);
         }
-        Date now = new Date();
-        long diffInDays = now.getTime() - date.getTime();
-        if(diffInDays < 0.0) {
+
+        @Override
+        public int getItemViewType(int position) {
             return TYPE_CELL;
-        } else {
-            return TYPE_HEADER;
-        }
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View v = null;
-
-        int type = getItemViewType(cursor.getPosition());
-        RecyclerView.ViewHolder viewHolder = null;
-
-        switch (type) {
-            case TYPE_HEADER:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_card_big, parent, false);
-                viewHolder = new SimpleViewHolder(v);
-                break;
-            case TYPE_CELL:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_card_small, parent, false);
-                viewHolder = new SimpleViewHolder(v);
-                break;
-        }
-        assert v != null;
-        v.setTag(viewHolder);
-        return v;
-    }
-
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        final int viewType = getItemViewType(cursor.getPosition());
-        Log.e(TAG, cursor.getString(cursor.getColumnIndex(TestDb.CONTENT)));
-        switch (viewType) {
-            case TYPE_HEADER:
-                SimpleViewHolder holder = (SimpleViewHolder) view.getTag();
-                holder.title.setText(cursor.getString(cursor.getColumnIndex(TestDb.TITLE)));
-                holder.content.setText(cursor.getString(cursor.getColumnIndex(TestDb.CONTENT)));
-                break;
-            case TYPE_CELL:
-                SimpleViewHolder holder0 = (SimpleViewHolder) view.getTag();
-                String open_date = cursor.getString(cursor.getColumnIndex(TestDb.ODATE));
-                Date date = new Date();
-                try {
-                    date = df.parse(open_date);
-                } catch (ParseException e) {
-                    Log.e(TAG, "Parsing ISO8601 datetime failed", e);
-                }
-                Date now = new Date();
-                int diffInDays = (int)( (now.getTime() - date.getTime())
-                        / (1000 * 60 * 60 * 24) );
-                holder0.title.setText("D - " + String.valueOf(-diffInDays));
-                break;
         }
 
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            View v = null;
+
+            int type = getItemViewType(cursor.getPosition());
+            RecyclerView.ViewHolder viewHolder = null;
+
+            switch (type) {
+                case TYPE_CELL:
+                    v = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.list_item_card_small, parent, false);
+                    viewHolder = new SimpleViewHolder(v);
+                    break;
+            }
+            assert v != null;
+            v.setTag(viewHolder);
+            return v;
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            final int viewType = getItemViewType(cursor.getPosition());
+            Log.e(TAG, cursor.getString(cursor.getColumnIndex(TestDb.CONTENT)));
+            switch (viewType) {
+                case TYPE_CELL:
+
+                    SimpleViewHolder holder0 = (SimpleViewHolder) view.getTag();
+                    String open_date = cursor.getString(cursor.getColumnIndex(TestDb.ODATE));
+                    Date date = new Date();
+                    try {
+                        date = df.parse(open_date);
+                    } catch (ParseException e) {
+                        Log.e(TAG, "Parsing ISO8601 datetime failed", e);
+                    }
+                    Date now = new Date();
+                    int diffInDays = (int)( (now.getTime() - date.getTime())
+                            / (1000 * 60 * 60 * 24) );
+                    holder0.title.setText("D - " + String.valueOf(diffInDays));
+                    break;
+            }
+
+        }
+
+
     }
-
-
-}
 
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
         SimpleViewHolder viewHolder = null;
         switch (viewType){
-            case TYPE_HEADER:
-                viewHolder = new SimpleViewHolder(v);
-                break;
             case TYPE_CELL:
                 viewHolder = new SimpleViewHolder(v);
                 break;

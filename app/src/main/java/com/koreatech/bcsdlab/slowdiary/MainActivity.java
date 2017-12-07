@@ -49,10 +49,11 @@ public class MainActivity extends DrawerActivity {
                     *  (현재 이 부분은 RecyclerViewFragment, SimpleCursorRecyclerAdapter가 담당하고 있음.)
                     *  (또한 이 부분을 구현하기 위해 DB 테이블의 수정이 필요할 수도 있으며, 추가적인 Fragment가 필요할수도 있음.)
                     * */
-                    //case 0:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 1:
-                    //    return RecyclerViewFragment.newInstance();
+                    case 0:
+                        return FutureRecyclerViewFragment.newInstance();
+                    case 1:
+                        return PreviousRecyclerViewFragment.newInstance();
+                        //return PreviousRecyclerViewFragment.newInstance();
                     //case 2:
                     //    return WebViewFragment.newInstance();
                     default:

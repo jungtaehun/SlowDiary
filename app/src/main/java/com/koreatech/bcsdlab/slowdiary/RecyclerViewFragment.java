@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
+import junit.framework.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,10 +62,10 @@ public class RecyclerViewFragment extends Fragment {
 
         //Use this now
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-        mAdapter = new SimpleCursorRecyclerAdapter();
+        Cursor cursor = new TestDb(getActivity()).getTitle();
+        mAdapter = new SimpleCursorRecyclerAdapter(getContext(),cursor);
+        mAdapter.setDataSet(cursor);
         mRecyclerView.setAdapter(mAdapter);
-
-        new LoadTestDbTask().execute();
         mAdapter.notifyDataSetChanged();
     }
 

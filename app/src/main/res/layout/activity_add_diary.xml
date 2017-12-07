@@ -42,7 +42,7 @@
             android:ems="10"
             android:hint="Content"
             android:inputType="textMultiLine" />
-
+<!--
         <EditText
             android:id="@+id/add_open_date"
             android:layout_width="match_parent"
@@ -52,7 +52,12 @@
             android:layout_marginRight="@dimen/cardMarginHorizontal"
             android:layout_marginTop="@dimen/cardMarginVertical"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="date" />-->
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button

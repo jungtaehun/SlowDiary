@@ -29,7 +29,7 @@ public class TestDb {
     public static final String WDATE = "WriteDate";
     public static final String ODATE = "OpenDate";
     private static final String TABLE_CREATE =
-            "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WDATE + "," + ODATE + "," + TITLE + "," + CONTENT + ")";
+            "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + WDATE + " DATETIME," + ODATE + " DATETIME," + TITLE + "," + CONTENT + ")";
 
     // query projection
     public static final String[] PROJECTION = {
@@ -43,6 +43,13 @@ public class TestDb {
     public TestDb(Context context) { mDatabaseOpenHelper = new DatabaseOpenHelper(context);}
 
 
+    public Cursor getODate(String t) {
+        return query(
+                TITLE + " like '%" + t + "%'",
+                null,
+                PROJECTION
+        );
+    }
 
     public Cursor getTitle() { return query(null, null, PROJECTION); }
     public Cursor getTitle(String t) {
@@ -52,6 +59,28 @@ public class TestDb {
                 PROJECTION
         );
     }
+
+    //public Cursor getOpenDate() { return query(null, null, PROJECTION); }
+    public Cursor getPrevious() {
+
+        //SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
+        String[] selectArg = new String[]{};
+        //Cursor c = db.query(TABLE_NAME, PROJECTION , ODATE + "< DATETIME('now')", selectArg, null, null, null);
+        Cursor c1 = query(ODATE + "< DATETIME('now')", selectArg, PROJECTION, null);
+        return c1;
+    }
+
+    public Cursor getFuture() {
+        //SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
+        String[] selectArg = new String[]{};
+        //String sql = "SELECT * from TEST_TABLE where OpenDate = (select max(OpenDate) from TEST_TABLE WHERE OpenDate < DATE('now') )";
+        //Cursor c2 = db.query(TABLE_NAME, PROJECTION , ODATE + ">= DATETIME('now')", selectArg, null, null, null);
+        Cursor c2 = query(ODATE + ">= DATETIME('now')", selectArg, PROJECTION, null);
+        //Cursor c2 = db.rawQuery(sql,selectArg,null);
+        return c2;
+    }
+
+
 
     public Cursor query(String selection, String[] selectionArgs, String[] columns, String order) {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
