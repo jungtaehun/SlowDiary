@@ -21,6 +21,8 @@ public class MainActivity extends DrawerActivity {
 
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
+    FutureRecyclerViewFragment mFuture;
+    PreviousRecyclerViewFragment mPrevious;
     View vw;
 
 
@@ -50,9 +52,11 @@ public class MainActivity extends DrawerActivity {
                     *  (또한 이 부분을 구현하기 위해 DB 테이블의 수정이 필요할 수도 있으며, 추가적인 Fragment가 필요할수도 있음.)
                     * */
                     case 0:
-                        return FutureRecyclerViewFragment.newInstance();
+                        mFuture = FutureRecyclerViewFragment.newInstance();
+                        return mFuture;
                     case 1:
-                        return PreviousRecyclerViewFragment.newInstance();
+                        mPrevious = PreviousRecyclerViewFragment.newInstance();
+                        return mPrevious;
                         //return PreviousRecyclerViewFragment.newInstance();
                     //case 2:
                     //    return WebViewFragment.newInstance();
@@ -133,6 +137,8 @@ public class MainActivity extends DrawerActivity {
                 String title = data.getStringExtra("Title");
                 String content = data.getStringExtra("Content");
                 Snackbar.make(vw , "제목 : " + title + ", 내용 : " + content, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                mFuture.updateView();
+                mPrevious.updateView();
                 break;
             default:
                 Snackbar.make(vw , "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();

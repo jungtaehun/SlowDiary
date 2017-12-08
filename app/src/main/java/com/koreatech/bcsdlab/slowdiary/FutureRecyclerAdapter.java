@@ -24,11 +24,8 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
     Context mContext;
     static final int TYPE_HEADER = 0;
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    public FutureRecyclerAdapter(Context context, Cursor c) {
-        mContext = context;
-        mCursorAdapter = new CustomCursorAdapter(mContext, c, 0);
-    }
+    boolean mDataValid;
+    protected int mRowIDColumn;
 
     class SimpleViewHolder extends RecyclerView.ViewHolder
     {
@@ -42,10 +39,6 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
         }
     }
 
-    /* Todo
-* 현재 큰 CardView와 작은 CardView 선택 기준은 getItemViewType에서 임의로 설정한 position에 의해 결정된다.
-* 하지만 이제는 OpenDate와 비교해 오픈되었는지의 여부로 결정해주어야 한다.
-* */
     private class CustomCursorAdapter extends CursorAdapter {
         public CustomCursorAdapter(Context context, Cursor c, int flags) {
             super(context, c, flags);
@@ -78,7 +71,7 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             final int viewType = getItemViewType(cursor.getPosition());
-            Log.e(TAG, cursor.getString(cursor.getColumnIndex(TestDb.CONTENT)));
+
             switch (viewType) {
                 case TYPE_HEADER:
                     SimpleViewHolder holder = (SimpleViewHolder) view.getTag();
@@ -94,7 +87,7 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
 
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+        View v = mCursorAdapter.newView(mContext, mCursor, parent);
         SimpleViewHolder viewHolder = null;
         switch (viewType){
             case TYPE_HEADER:
@@ -107,99 +100,9 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
-        Log.e(TAG, String.valueOf(position));
-        mCursorAdapter.getCursor().moveToPosition(position);
-        //Log.e(TAG, String.valueOf(mCursorAdapter.getCursor()));
-        mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
-    }
-
-    @Override
-    public int getItemCount() {
-        if (mCursor != null)
-            return mCursor.getCount();
-        else return 0;
-    }
-
-
-/*
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        mCursorAdapter.getCursor().moveToPosition(position);
-        mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
-        RecyclerView.ViewHolder viewHolder = null;
-        switch (viewType){
-            case TYPE_HEADER:
-                viewHolder = new HeaderViewHolder(v);
-                break;
-            case TYPE_CELL:
-                viewHolder = new CellViewHolder(v);
-                break;
-        }
-
-        return viewHolder;
-    }*/
-/*
-    @Override
-    public int getItemViewType(int position) {
-        Cursor cursor = (Cursor) mCursorRecyclerAdapter.getItem(position);
-        cursor.moveToNext();
-        Date date = new Date();
-        String open_date = mCursor.getString(mCursor.getColumnIndex(TestDb.ODATE));
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            date = df.parse(open_date);
-        } catch (ParseException e) {
-            Log.e(TAG, "Parsing ISO8601 datetime failed", e);
-        }
-        Date now = new Date();
-        long diffInDays = now.getTime() - date.getTime();
-        if(diffInDays < 0.0) {
-            return TYPE_CELL;
-        } else {
-            return TYPE_HEADER;
-        }
-    }*/
-/* Todo
-* 현재 CardView의 UI 디자인이 되어있지 않은 상태이기에 이 부분의 디자인 수정이 필요함.
-* 수정해야할 CardView는 list_item_card_big, list_item_card_small 둘이다.
-* */
-/*
-    @Override
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = null;
-        switch ( getItemViewType(position)) {
-            case TYPE_HEADER: {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_card_big, parent, false);
-                return new SimpleViewHolder(view);
-            }
-            case TYPE_CELL: {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_card_small, parent, false);
-                return new SimpleViewHolder(view);
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(SimpleViewHolder viewHolder, int position) {
         mCursor.moveToPosition(position);
-        switch (getItemViewType(position)) {
-            case TYPE_HEADER:
-                viewHolder.title.setText(mCursor.getString(mCursor.getColumnIndex(TestDb.TITLE)));
-                viewHolder.content.setText(mCursor.getString(mCursor.getColumnIndex(TestDb.CONTENT)));
-                break;
-            case TYPE_CELL:
-                viewHolder.title.setText("D - " + String.valueOf(2));
-                break;
-        }
+        //Log.e(TAG, String.valueOf(mCursorAdapter.getCursor()));
+        mCursorAdapter.bindView(holder.itemView, mContext, mCursor);
     }
 
     @Override
@@ -208,24 +111,31 @@ public class FutureRecyclerAdapter extends RecyclerView.Adapter<FutureRecyclerAd
             return mCursor.getCount();
         else return 0;
     }
-*/
-    /**
-     * set DataBase Cursor for Recycler Adapter
-     * @param cur
-     */
-    public void setDataSet(Cursor cur) { mCursor = cur;}
-}
-/*
-class SimpleViewHolder extends RecyclerView.ViewHolder
-{
-    public TextView title, content;
 
-    public SimpleViewHolder (View itemView)
-    {
-        super(itemView);
-        title = (TextView) itemView.findViewById(R.id.ltitle);
-        content = (TextView) itemView.findViewById(R.id.lcontent);
+
+    public void setDataSet(Context context, Cursor cur) {
+        mCursor = cur;
+        mContext = context;
+        mCursorAdapter = new CustomCursorAdapter(mContext, mCursor, 0);
+    }
+
+    public Cursor swapCursor(Cursor newCursor) {
+        if (newCursor == mCursor) {
+            return null;
+        }
+        Cursor oldCursor = mCursor;
+        mCursor = newCursor;
+        if (newCursor != null) {
+            mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
+            mDataValid = true;
+            // notify the observers about the new cursor
+            notifyDataSetChanged();
+        } else {
+            mRowIDColumn = -1;
+            mDataValid = false;
+            // notify the observers about the lack of a data set
+            notifyItemRangeRemoved(0, getItemCount());
+        }
+        return oldCursor;
     }
 }
-*/
-

@@ -13,20 +13,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import android.app.DatePickerDialog;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
 
-public class AddDiaryActivity extends AppCompatActivity {
+public class AddDiaryActivity extends AppCompatActivity{
     private EditText mTitle;
     private EditText mContent;
     private EditText mOpenDate;
     private Button mSave;
+    private Button mDateBtn;
+    Calendar calendar ;
+    DatePickerDialog datePickerDialog ;
+    int mYear, mMonth, mDay ;
     DatePicker datePicker;
 
     SQLiteDatabase db;
@@ -40,15 +48,52 @@ public class AddDiaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_diary);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*
+        toolbar = (Toolbar) findViewById(R.id.toolbar_1);
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+         */
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_1);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
         /* Todo AddDiaryActivity의 레이아웃과 색을 변경해야할 것 같습니다. */
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         mTitle = (EditText)findViewById(R.id.add_title);
         mContent = (EditText)findViewById(R.id.add_content);
         //mOpenDate = (EditText)findViewById(R.id.add_open_date);
+        //mDateBtn = (Button)findViewById(R.id.date_btn);
 
+        //calendar = Calendar.getInstance();
+
+        //mYear = calendar.get(Calendar.YEAR) ;
+        //mMonth = calendar.get(Calendar.MONTH);
+        //mDay = calendar.get(Calendar.DAY_OF_MONTH);
+/*
+        mDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddDiaryActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int y,
+                                                  int m, int d) {
+                                mYear = y;
+                                mMonth = m;
+                                mDay = d;
+                                String date = "Selected Date : " + mDay + "-" + mMonth + "-" + mYear;
+                                Toast.makeText(AddDiaryActivity.this, date, Toast.LENGTH_LONG).show();
+
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+
+            }
+        });
+*/
         mSave = (Button)findViewById(R.id.save_button);
         mSave.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("unused")
@@ -67,7 +112,16 @@ public class AddDiaryActivity extends AppCompatActivity {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
+/*
+    @Override
+    public void onDateSet(DatePickerDialog view, int y, int m, int d) {
+        mYear = y;
+        mMonth = m;
+        mDay = d;
+        String date = "Selected Date : " + mDay + "-" + mMonth + "-" + mYear;
+        Toast.makeText(AddDiaryActivity.this, date, Toast.LENGTH_LONG).show();
+    }
+*/
     public void insert(String t, String c, int y, int m, int d) {
         /*
 

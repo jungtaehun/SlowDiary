@@ -41,7 +41,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
-        loadTestDb(db);
+        //loadTestDb(db);
     }
 
     /**
