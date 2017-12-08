@@ -89,11 +89,11 @@ public class MainActivity extends DrawerActivity {
                     case 0:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.green,
-                                getResources().getDrawable(R.drawable.choco));
+                                getResources().getDrawable(R.drawable.e_writing));
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.blue,
-                                getResources().getDrawable(R.drawable.choco));
+                                getResources().getDrawable(R.drawable.e_time));
                 }
 
                 return null;

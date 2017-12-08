@@ -18,7 +18,7 @@
             app:viewpager_logo="@layout/header_logo"
             app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
             app:viewpager_logoMarginTop="100dp"
-            app:viewpager_color="@color/colorPrimary"
+            app:viewpager_color="#303F9F"
             app:viewpager_headerHeight="200dp"
             app:viewpager_headerAlpha="1.0"
             app:viewpager_imageHeaderDarkLayerAlpha="0.2"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@drawable/ic" />
 
     </android.support.design.widget.CoordinatorLayout>
 
